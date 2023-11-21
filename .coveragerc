@@ -1,6 +1,7 @@
 [run]
 branch = True
 include =
+    ./src/*
     ./scrape_web.py
 omit =
     ./.idea/*

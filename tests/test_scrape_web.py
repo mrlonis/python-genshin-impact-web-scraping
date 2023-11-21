@@ -1,6 +1,6 @@
 """This module contains the tests for the scrape_web.py script."""
-from scrape_web import scrape_web
 from src.characters import characters_list
+from src.scrape_web import scrape_web
 
 
 def test_scrape_web():
