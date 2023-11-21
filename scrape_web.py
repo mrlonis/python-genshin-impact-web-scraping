@@ -62,4 +62,9 @@ def scrape_web(character_input: CharacterInput, make_server_call=False) -> str:
 
 scrape_web(character_input=characters_list[0], make_server_call=False)
 scrape_web(character_input=characters_list[1], make_server_call=False)
+scrape_web(character_input=characters_list[2], make_server_call=False)
+scrape_web(character_input=characters_list[3], make_server_call=False)
+scrape_web(character_input=characters_list[4], make_server_call=False)
+scrape_web(character_input=characters_list[5], make_server_call=False)
+scrape_web(character_input=characters_list[6], make_server_call=False)
 build_characters_csv()

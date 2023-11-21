@@ -3,6 +3,10 @@ from bs4 import BeautifulSoup, ResultSet, Tag
 
 from src.character_data import CharacterData
 
+CRIT_RATE = "CRIT Rate"
+CRIT_DAMAGE = "CRIT DMG"
+CRIT_RATE_AND_DAMAGE = "CRIT Rate / CRIT DMG"
+
 
 def _process_sands_stats(sands_stats_raw: str, character_data: CharacterData):
     """Process the sands stats."""
@@ -37,15 +41,34 @@ def _goblet_stats(goblet_stats_raw: str, character_data: CharacterData):
 def _circlet_stats(circlet_stats_raw: str, character_data: CharacterData):
     """Process the circlet stats."""
     split_data = circlet_stats_raw.split("/")
+    split_length = len(split_data)
     print(split_data)
     i = 0
-    while i < len(split_data):
+    while i < split_length:
         if i == 0:
-            character_data.circlet_stat_one = split_data[i].strip()
+            value = split_data[i].strip()
+            if split_length > 1 and value == CRIT_RATE:
+                next_value = split_data[i + 1].strip()
+                if next_value == CRIT_DAMAGE:
+                    value = CRIT_RATE_AND_DAMAGE
+                    i += 1
+            character_data.circlet_stat_one = value
         elif i == 1:
-            character_data.circlet_stat_two = split_data[i].strip()
+            value = split_data[i].strip()
+            if split_length > 2 and value == CRIT_RATE:
+                next_value = split_data[i + 1].strip()
+                if next_value == CRIT_DAMAGE:
+                    value = CRIT_RATE_AND_DAMAGE
+                    i += 1
+            character_data.circlet_stat_two = value
         elif i == 2:
-            character_data.circlet_stat_three = split_data[i].strip()
+            value = split_data[i].strip()
+            if split_length > 3 and value == CRIT_RATE:
+                next_value = split_data[i + 1].strip()
+                if next_value == CRIT_DAMAGE:
+                    value = CRIT_RATE_AND_DAMAGE
+                    i += 1
+            character_data.circlet_stat_three = value
         i += 1
 
 
