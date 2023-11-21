@@ -5,30 +5,36 @@ from pydantic import BaseModel
 class CharacterData(BaseModel):
     """Character data model."""
 
-    sandsStatOne: str | None
-    sandsStatTwo: str | None
-    sandsStatThree: str | None
-    gobletStatOne: str | None
-    gobletStatTwo: str | None
-    gobletStatThree: str | None
-    circletStatOne: str | None
-    circletStatTwo: str | None
-    circletStatThree: str | None
-    substatOne: str | None
-    substatTwo: str | None
-    substatThree: str | None
-    weaponOneId: str | None
-    weaponTwoId: str | None
-    weaponThreeId: str | None
-    weaponFourId: str | None
-    weaponFiveId: str | None
-    artifactSetOneIdFirst: str | None
-    artifactSetOneIdSecond: str | None
-    artifactSetTwoIdFirst: str | None
-    artifactSetTwoIdSecond: str | None
-    artifactSetThreeIdFirst: str | None
-    artifactSetThreeIdSecond: str | None
-    artifactSetFourIdFirst: str | None
-    artifactSetFourIdSecond: str | None
-    artifactSetFiveIdFirst: str | None
-    artifactSetFiveIdSecond: str | None
+    name: str
+    image_url: str | None = None
+    rarity: int
+    element_id: str
+    weapon_type: str
+
+    sand_stat_one: str | None = None
+    sands_stat_two: str | None = None
+    sands_stat_three: str | None = None
+    goblet_stat_one: str | None = None
+    goblet_stat_two: str | None = None
+    goblet_stat_three: str | None = None
+    circlet_stat_one: str | None = None
+    circlet_stat_two: str | None = None
+    circlet_stat_three: str | None = None
+    substat_one: str | None = None
+    substat_two: str | None = None
+    substat_three: str | None = None
+    weapon_one_id: str | None = None
+    weapon_two_id: str | None = None
+    weapon_three_id: str | None = None
+    weapon_four_id: str | None = None
+    weapon_five_id: str | None = None
+    artifact_set_one_id_first: str | None = None
+    artifact_set_one_id_second: str | None = None
+    artifact_set_two_id_first: str | None = None
+    artifact_set_two_id_second: str | None = None
+    artifact_set_three_id_first: str | None = None
+    artifact_set_three_id_second: str | None = None
+    artifact_set_four_id_first: str | None = None
+    artifact_set_four_id_second: str | None = None
+    artifact_set_five_id_first: str | None = None
+    artifact_set_five_id_second: str | None = None

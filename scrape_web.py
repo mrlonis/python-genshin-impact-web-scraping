@@ -2,8 +2,10 @@
 from urllib.request import urlopen
 
 from bs4 import BeautifulSoup, ResultSet, Tag
+from rich import print as pretty_print
 
 from src.character_data import CharacterData
+from src.processors import get_element, get_rarity, get_weapon_type, get_weapons_and_artifacts
 
 
 def build_characters_csv():
@@ -17,6 +19,7 @@ def build_characters_csv():
 
 def scrape_web(url: str, make_server_call=False) -> str:
     """Scrape the web for data."""
+    # pylint: disable=too-many-locals, too-many-branches, too-many-statements
     if make_server_call:
         with urlopen(url) as page:  # nosec
             html = page.read().decode("utf-8")
@@ -25,70 +28,36 @@ def scrape_web(url: str, make_server_call=False) -> str:
             html = file.read()
 
     soup = BeautifulSoup(html, "html.parser")
-    character_data: CharacterData = CharacterData(
-        sandsStatOne=None,
-        sandsStatTwo=None,
-        sandsStatThree=None,
-        gobletStatOne=None,
-        gobletStatTwo=None,
-        gobletStatThree=None,
-        circletStatOne=None,
-        circletStatTwo=None,
-        circletStatThree=None,
-        substatOne=None,
-        substatTwo=None,
-        substatThree=None,
-        weaponOneId=None,
-        weaponTwoId=None,
-        weaponThreeId=None,
-        weaponFourId=None,
-        weaponFiveId=None,
-        artifactSetOneIdFirst=None,
-        artifactSetOneIdSecond=None,
-        artifactSetTwoIdFirst=None,
-        artifactSetTwoIdSecond=None,
-        artifactSetThreeIdFirst=None,
-        artifactSetThreeIdSecond=None,
-        artifactSetFourIdFirst=None,
-        artifactSetFourIdSecond=None,
-        artifactSetFiveIdFirst=None,
-        artifactSetFiveIdSecond=None,
-    )
-    print(character_data)
-    results: ResultSet[Tag] = soup.find_all("div", {"class": "character-build-weapon"})
+    character_data: CharacterData = CharacterData(name="", rarity=0, element_id="", weapon_type="")
 
-    weapon_or_artifact = 0  # 0 = weapon, 1 = weapon, 2 = artifact
-    for result in results:
-        weapon_rank = result.find("div", {"class": "character-build-weapon-rank"})
-        if weapon_rank:
-            weapon_rank_text = int(weapon_rank.text)
-            if weapon_rank_text == 1 and weapon_or_artifact == 0:
-                print("WEAPON: INITIAL")
-                print(weapon_rank_text)
-                weapon_or_artifact += 1
-            elif weapon_rank_text == 1 and weapon_or_artifact == 1:
-                print("ARTIFACT: INITIAL")
-                print(weapon_rank_text)
-                weapon_or_artifact += 1
-            elif weapon_or_artifact == 1:
-                print("WEAPON: ELSE")
-                print(weapon_rank_text)
-            else:
-                print("ARTIFACT: ELSE")
-                print(weapon_rank_text)
-        weapon_name: ResultSet[Tag] = result.find_all("div", {"class": "character-build-weapon-name"})
-        if len(weapon_name) == 1:
-            print(weapon_name[0].text)
-        elif len(weapon_name) == 2:
-            print(weapon_name[0].text)
-            print(weapon_name[1].text)
+    # Get Rarity
+    get_rarity(soup, character_data)
 
+    # Get Element
+    get_element(soup, character_data)
+
+    # Get Weapon Type
+    get_weapon_type(soup, character_data)
+
+    # Get Stats
     character_stats: ResultSet[Tag] = soup.find_all("div", {"class": "character-stats-item"})
+    sands_stats_raw: str | None = None
+    goblet_stats_raw: str | None = None
+    circlet_stats_raw: str | None = None
+    substats_raw: str | None = None
     if len(character_stats) == 4:
-        print(character_stats[0].text)
-        print(character_stats[1].text)
-        print(character_stats[2].text)
-        print(character_stats[3].text)
+        sands_stats_raw = character_stats[0].text.split("Sands: ")[1]
+        print(sands_stats_raw)
+        goblet_stats_raw = character_stats[1].text.split("Goblet: ")[1]
+        print(goblet_stats_raw)
+        circlet_stats_raw = character_stats[2].text.split("Circlet: ")[1]
+        print(circlet_stats_raw)
+        substats_raw = character_stats[3].text.split("Substats: ")[1]
+        print(substats_raw)
+
+    # Get Weapons & Artifacts
+    get_weapons_and_artifacts(soup, character_data)
+    pretty_print(character_data)
     return html
 
 
