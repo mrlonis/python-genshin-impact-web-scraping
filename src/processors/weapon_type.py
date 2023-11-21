@@ -10,7 +10,6 @@ def get_weapon_type(soup: BeautifulSoup, character_data: CharacterData):
     weapon_type: str | None = None
     if weapon_type_result and isinstance(weapon_type_result, Tag):
         weapon_type = weapon_type_result.text.strip()
-        print(f"WEAPON TYPE: {weapon_type}")
         character_data.weapon_type = weapon_type
     else:
         print("ERROR: Weapon type not found.")

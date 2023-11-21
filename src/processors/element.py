@@ -10,7 +10,6 @@ def get_element(soup: BeautifulSoup, character_data: CharacterData):
     element: str | None = None
     if element_result and isinstance(element_result, Tag):
         element = element_result.attrs["alt"]
-        print(f"ELEMENT: {element}")
         character_data.element_id = element
     else:
         print("ERROR: Element not found.")

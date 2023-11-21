@@ -7,11 +7,11 @@ class CharacterData(BaseModel):
 
     name: str
     image_url: str | None = None
-    rarity: int
-    element_id: str
-    weapon_type: str
+    rarity: int = 0
+    element_id: str = ""
+    weapon_type: str = ""
 
-    sand_stat_one: str | None = None
+    sands_stat_one: str | None = None
     sands_stat_two: str | None = None
     sands_stat_three: str | None = None
     goblet_stat_one: str | None = None

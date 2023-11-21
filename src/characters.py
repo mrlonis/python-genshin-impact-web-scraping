@@ -9,8 +9,8 @@ class CharacterInput(BaseModel):
     url_name: str | None = None
 
 
-characters: list[CharacterInput] = [
-    CharacterInput(name="Kamisato Ayaka"),
+characters_list: list[CharacterInput] = [
+    CharacterInput(name="Kamisato Ayaka", url_name="ayaka"),
     CharacterInput(name="Jean"),
     CharacterInput(name="Traveler (Anemo)"),
     CharacterInput(name="Traveler (Geo)"),

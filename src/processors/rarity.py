@@ -10,7 +10,6 @@ def get_rarity(soup: BeautifulSoup, character_data: CharacterData):
     rarity: int | None = None
     if rarity_result and isinstance(rarity_result, Tag):
         rarity = int(rarity_result.attrs["class"][1].split("-")[1])
-        print(f"RARITY: {rarity}")
         character_data.rarity = rarity
     else:
         print("ERROR: Rarity not found.")
