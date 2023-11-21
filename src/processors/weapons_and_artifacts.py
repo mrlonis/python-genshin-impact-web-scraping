@@ -1,47 +1,7 @@
-"""This module contains processors for parsing HTML."""
-
+"""This module contains the logic for the get_weapons_and_artifacts processor."""
 from bs4 import BeautifulSoup, ResultSet, Tag
 
 from src.character_data import CharacterData
-
-
-def get_rarity(soup: BeautifulSoup, character_data: CharacterData):
-    """Get the rarity of the character."""
-    rarity_result = soup.find("img", {"class": "character-portrait"})
-    rarity: int | None = None
-    if rarity_result and isinstance(rarity_result, Tag):
-        rarity = int(rarity_result.attrs["class"][1].split("-")[1])
-        print(f"RARITY: {rarity}")
-        character_data.rarity = rarity
-    else:
-        print("ERROR: Rarity not found.")
-        raise ValueError("Rarity not found.")
-
-
-def get_element(soup: BeautifulSoup, character_data: CharacterData):
-    """Get the element of the character."""
-    element_result = soup.find("img", {"class": "character-element"})
-    element: str | None = None
-    if element_result and isinstance(element_result, Tag):
-        element = element_result.attrs["alt"]
-        print(f"ELEMENT: {element}")
-        character_data.element_id = element
-    else:
-        print("ERROR: Element not found.")
-        raise ValueError("Element not found.")
-
-
-def get_weapon_type(soup: BeautifulSoup, character_data: CharacterData):
-    """Get the weapon type of the character."""
-    weapon_type_result = soup.find("div", {"class": "character-path"})
-    weapon_type: str | None = None
-    if weapon_type_result and isinstance(weapon_type_result, Tag):
-        weapon_type = weapon_type_result.text.strip()
-        print(f"WEAPON TYPE: {weapon_type}")
-        character_data.weapon_type = weapon_type
-    else:
-        print("ERROR: Weapon type not found.")
-        raise ValueError("Weapon type not found.")
 
 
 def _process_weapon_and_artifacts_html(soup: BeautifulSoup, weapons: list[str], artifacts: list[list[str]]):

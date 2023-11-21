@@ -6,7 +6,7 @@ class CharacterInput(BaseModel):
     """Character data model."""
 
     name: str
-    url_path: str | None = None
+    url_name: str | None = None
 
 
 characters: list[CharacterInput] = [
