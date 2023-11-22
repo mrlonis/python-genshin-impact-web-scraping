@@ -6,7 +6,10 @@ from src.character_data import CharacterData
 
 def _process_weapon_and_artifacts_html(soup: BeautifulSoup, weapons: list[str], artifacts: list[list[str]]):
     """Process the weapons and artifacts html into data structures."""
-    weapon_or_artifact = 0  # 0 = weapon | 1 = weapon | 2 = artifact
+    # 0 is the initial value and represents weapon
+    # 1 is the next increment and also represents a weapon, but not the first weapon
+    # 2 represents artifact
+    weapon_or_artifact = 0
     results: ResultSet[Tag] = soup.find_all("div", {"class": "character-build-weapon"})
     for result in results:
         weapon_rank = result.find("div", {"class": "character-build-weapon-rank"})
@@ -36,20 +39,35 @@ def _process_weapon_and_artifacts_html(soup: BeautifulSoup, weapons: list[str], 
                     artifacts.append([weapon_name[0].text, weapon_name[1].text])
 
 
+def _sanitize_weapon_name(weapon_name: str) -> str:
+    """Sanitize the weapon name."""
+    if "R1" in weapon_name:
+        return weapon_name.replace("R1", "").strip()
+    if "R2" in weapon_name:
+        return weapon_name.replace("R2", "").strip()
+    if "R3" in weapon_name:
+        return weapon_name.replace("R3", "").strip()
+    if "R4" in weapon_name:
+        return weapon_name.replace("R4", "").strip()
+    if "R5" in weapon_name:
+        return weapon_name.replace("R5", "").strip()
+    return weapon_name.strip()
+
+
 def _process_weapons(weapons: list[str], character_data: CharacterData):
     """Process the weapons data and assign to character data."""
     i = 0
     while i < len(weapons):
         if i == 0:
-            character_data.weapon_one_id = weapons[i]
+            character_data.weapon_one_id = _sanitize_weapon_name(weapons[i])
         elif i == 1:
-            character_data.weapon_two_id = weapons[i]
+            character_data.weapon_two_id = _sanitize_weapon_name(weapons[i])
         elif i == 2:
-            character_data.weapon_three_id = weapons[i]
+            character_data.weapon_three_id = _sanitize_weapon_name(weapons[i])
         elif i == 3:
-            character_data.weapon_four_id = weapons[i]
+            character_data.weapon_four_id = _sanitize_weapon_name(weapons[i])
         elif i == 4:
-            character_data.weapon_five_id = weapons[i]
+            character_data.weapon_five_id = _sanitize_weapon_name(weapons[i])
         else:
             error_message = f"Too many weapons for {character_data.name}."
             print(f"ERROR: {error_message}")

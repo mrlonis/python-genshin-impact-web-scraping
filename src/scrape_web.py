@@ -39,6 +39,9 @@ def scrape_web(character_input: CharacterInput, make_server_call=False):
     if make_server_call:
         with urlopen(_build_url(character_input)) as page:  # nosec
             html = page.read().decode("utf-8")
+            sample_data_path = _build_sample_data_path(character_input)
+            with open(sample_data_path, "w", encoding="utf-8") as sample_data_file:
+                sample_data_file.write(html)
     else:
         sample_data_path = _build_sample_data_path(character_input)
         if os.path.exists(sample_data_path):
