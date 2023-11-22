@@ -6,17 +6,20 @@ from bs4 import BeautifulSoup
 from rich import print as pretty_print
 
 from .character_data import CharacterData
-from .character_input import CharacterInput
+from .character_input import CharacterInput, characters_list
 from .processors import get_element, get_rarity, get_stats, get_weapon_type, get_weapons_and_artifacts
 
 
-def build_characters_csv():
+def build_characters_csv(make_server_call: bool = False):
     """Build the characters.csv file."""
     with open("output/characters.csv", "w", encoding="utf-8") as csv_file:
         # pylint: disable=line-too-long
         csv_file.write(
             "name,imageUrl,rarity,elementId,weaponType,sandsStatOne,sandsStatTwo,sandsStatThree,gobletStatOne,gobletStatTwo,gobletStatThree,circletStatOne,circletStatTwo,circletStatThree,substatOne,substatTwo,substatThree,weaponOneId,weaponTwoId,weaponThreeId,weaponFourId,weaponFiveId,artifactSetOneIdFirst,artifactSetOneIdSecond,artifactSetTwoIdFirst,artifactSetTwoIdSecond,artifactSetThreeIdFirst,artifactSetThreeIdSecond,artifactSetFourIdFirst,artifactSetFourIdSecond,artifactSetFiveIdFirst,artifactSetFiveIdSecond\n"  # noqa: E501
         )
+        for character_input in characters_list:
+            character = scrape_web(character_input, make_server_call=make_server_call)
+            csv_file.write(character.to_csv() + "\n")
 
 
 def _build_url(character_input: CharacterInput):
@@ -27,11 +30,11 @@ def _build_url(character_input: CharacterInput):
 
 def _build_sample_data_path(character_input: CharacterInput):
     """Build the sample data path."""
-    url_path = character_input.url_name if character_input.url_name else character_input.name
+    url_path = character_input.url_name if character_input.url_name else character_input.name.lower()
     return "sample_data/" + url_path + ".html"
 
 
-def scrape_web(character_input: CharacterInput, make_server_call=False) -> str:
+def scrape_web(character_input: CharacterInput, make_server_call=False):
     """Scrape the web for data."""
     if make_server_call:
         with urlopen(_build_url(character_input)) as page:  # nosec
@@ -57,4 +60,4 @@ def scrape_web(character_input: CharacterInput, make_server_call=False) -> str:
     get_weapons_and_artifacts(soup, character_data)
 
     pretty_print(character_data)
-    return html
+    return character_data

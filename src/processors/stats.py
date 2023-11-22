@@ -112,9 +112,10 @@ def get_stats(soup: BeautifulSoup, character_data: CharacterData, allow_empty: b
         substats_raw = character_stats[3].text.split("Substats: ")[1]
         print(substats_raw)
     else:
-        print("ERROR: Character stats not found.")
+        error_message = f"Character stats not found for {character_data.name}."
+        print(f"ERROR: {error_message}")
         if not allow_empty:
-            raise ValueError("Character stats not found.")
+            raise ValueError(error_message)
 
     _process_sands_stats(sands_stats_raw, character_data)
     _goblet_stats(goblet_stats_raw, character_data)

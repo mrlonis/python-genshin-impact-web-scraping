@@ -12,6 +12,7 @@ def get_element(soup: BeautifulSoup, character_data: CharacterData, allow_empty:
         element = element_result.attrs["alt"]
         character_data.element_id = element
     else:
-        print("ERROR: Element not found.")
+        error_message = f"Element not found for {character_data.name}."
+        print(f"ERROR: {error_message}")
         if not allow_empty:
-            raise ValueError("Element not found.")
+            raise ValueError(error_message)

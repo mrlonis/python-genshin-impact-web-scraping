@@ -6,7 +6,7 @@ from src.character_data import CharacterData
 
 def _process_weapon_and_artifacts_html(soup: BeautifulSoup, weapons: list[str], artifacts: list[list[str]]):
     """Process the weapons and artifacts html into data structures."""
-    weapon_or_artifact = 0  # 0 = weapon, 1 = weapon, 2 = artifact
+    weapon_or_artifact = 0  # 0 = weapon | 1 = weapon | 2 = artifact
     results: ResultSet[Tag] = soup.find_all("div", {"class": "character-build-weapon"})
     for result in results:
         weapon_rank = result.find("div", {"class": "character-build-weapon-rank"})
@@ -51,8 +51,9 @@ def _process_weapons(weapons: list[str], character_data: CharacterData):
         elif i == 4:
             character_data.weapon_five_id = weapons[i]
         else:
-            print("ERROR: Too many weapons")
-            raise ValueError("Too many weapons")
+            error_message = f"Too many weapons for {character_data.name}."
+            print(f"ERROR: {error_message}")
+            raise ValueError(error_message)
         i += 1
 
 
@@ -92,8 +93,9 @@ def _process_artifacts(artifacts: list[list[str]], character_data: CharacterData
                 character_data.artifact_set_five_id_first = artifacts[i][0]
                 character_data.artifact_set_five_id_second = artifacts[i][1]
         else:
-            print("ERROR: Too many artifacts")
-            raise ValueError("Too many artifacts")
+            error_message = f"Too many artifacts for {character_data.name}."
+            print(f"ERROR: {error_message}")
+            raise ValueError(error_message)
         i += 1
 
 

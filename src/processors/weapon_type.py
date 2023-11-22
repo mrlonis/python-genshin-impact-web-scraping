@@ -12,6 +12,7 @@ def get_weapon_type(soup: BeautifulSoup, character_data: CharacterData, allow_em
         weapon_type = weapon_type_result.text.strip()
         character_data.weapon_type = weapon_type
     else:
-        print("ERROR: Weapon type not found.")
+        error_message = f"Weapon type not found for {character_data.name}."
+        print(f"ERROR: {error_message}")
         if not allow_empty:
-            raise ValueError("Weapon type not found.")
+            raise ValueError(error_message)

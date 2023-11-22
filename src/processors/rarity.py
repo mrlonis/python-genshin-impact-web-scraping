@@ -12,6 +12,7 @@ def get_rarity(soup: BeautifulSoup, character_data: CharacterData, allow_empty: 
         rarity = int(rarity_result.attrs["class"][1].split("-")[1])
         character_data.rarity = rarity
     else:
-        print("ERROR: Rarity not found.")
+        error_message = f"Rarity not found for {character_data.name}."
+        print(f"ERROR: {error_message}")
         if not allow_empty:
-            raise ValueError("Rarity not found.")
+            raise ValueError(error_message)
