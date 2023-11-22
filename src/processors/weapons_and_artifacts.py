@@ -41,17 +41,12 @@ def _process_weapon_and_artifacts_html(soup: BeautifulSoup, weapons: list[str], 
 
 def _sanitize_weapon_name(weapon_name: str) -> str:
     """Sanitize the weapon name."""
-    if "R1" in weapon_name:
-        return weapon_name.replace("R1", "").strip()
-    if "R2" in weapon_name:
-        return weapon_name.replace("R2", "").strip()
-    if "R3" in weapon_name:
-        return weapon_name.replace("R3", "").strip()
-    if "R4" in weapon_name:
-        return weapon_name.replace("R4", "").strip()
-    if "R5" in weapon_name:
-        return weapon_name.replace("R5", "").strip()
-    return weapon_name.strip()
+    new_weapon_name = (
+        weapon_name.replace("R1", "").replace("R2", "").replace("R3", "").replace("R4", "").replace("R5", "").strip()
+    )
+    if "The Catch" == new_weapon_name:
+        return '"The Catch"'
+    return new_weapon_name
 
 
 def _process_weapons(weapons: list[str], character_data: CharacterData):

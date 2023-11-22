@@ -10,6 +10,8 @@ def _convert_field_to_csv(field: str | int | None) -> str:
         return str(field)
     if "," in field:
         return f'"{field}"'
+    if '"' in field:
+        return f'""{field}""'
     return field
 
 

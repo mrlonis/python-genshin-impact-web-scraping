@@ -17,7 +17,7 @@ characters_list: list[CharacterInput] = [
     CharacterInput(name="Traveler (Geo)", url_name="traveler(geo)"),
     CharacterInput(name="Traveler (Electro)", url_name="traveler(electro)"),
     CharacterInput(name="Traveler (Dendro)", url_name="traveler(dendro)"),
-    CharacterInput(name="Traveler (Hydro)", url_name="traveler(hydro)", allow_empty=True),
+    # CharacterInput(name="Traveler (Hydro)", url_name="traveler(hydro)", allow_empty=True),
     CharacterInput(name="Lisa"),
     CharacterInput(name="Barbara"),
     CharacterInput(name="Kaeya"),
