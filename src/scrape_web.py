@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from rich import print as pretty_print
 
 from .character_data import CharacterData
-from .characters import CharacterInput
+from .character_input import CharacterInput
 from .processors import get_element, get_rarity, get_stats, get_weapon_type, get_weapons_and_artifacts
 
 
@@ -50,10 +50,10 @@ def scrape_web(character_input: CharacterInput, make_server_call=False) -> str:
     soup = BeautifulSoup(html, "html.parser")
     character_data: CharacterData = CharacterData(name=character_input.name)
 
-    get_rarity(soup, character_data)
-    get_element(soup, character_data)
-    get_weapon_type(soup, character_data)
-    get_stats(soup, character_data)
+    get_rarity(soup, character_data, allow_empty=character_input.allow_empty)
+    get_element(soup, character_data, allow_empty=character_input.allow_empty)
+    get_weapon_type(soup, character_data, allow_empty=character_input.allow_empty)
+    get_stats(soup, character_data, allow_empty=character_input.allow_empty)
     get_weapons_and_artifacts(soup, character_data)
 
     pretty_print(character_data)

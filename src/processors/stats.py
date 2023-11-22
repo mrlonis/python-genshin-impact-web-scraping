@@ -8,8 +8,10 @@ CRIT_DAMAGE = "CRIT DMG"
 CRIT_RATE_AND_DAMAGE = "CRIT Rate / CRIT DMG"
 
 
-def _process_sands_stats(sands_stats_raw: str, character_data: CharacterData):
+def _process_sands_stats(sands_stats_raw: str | None, character_data: CharacterData):
     """Process the sands stats."""
+    if sands_stats_raw is None:
+        return
     split_data = sands_stats_raw.split("/")
     print(split_data)
     i = 0
@@ -23,8 +25,10 @@ def _process_sands_stats(sands_stats_raw: str, character_data: CharacterData):
         i += 1
 
 
-def _goblet_stats(goblet_stats_raw: str, character_data: CharacterData):
+def _goblet_stats(goblet_stats_raw: str | None, character_data: CharacterData):
     """Process the goblet stats."""
+    if not goblet_stats_raw:
+        return
     split_data = goblet_stats_raw.split("/")
     print(split_data)
     i = 0
@@ -38,8 +42,10 @@ def _goblet_stats(goblet_stats_raw: str, character_data: CharacterData):
         i += 1
 
 
-def _circlet_stats(circlet_stats_raw: str, character_data: CharacterData):
+def _circlet_stats(circlet_stats_raw: str | None, character_data: CharacterData):
     """Process the circlet stats."""
+    if not circlet_stats_raw:
+        return
     split_data = circlet_stats_raw.split("/")
     split_length = len(split_data)
     print(split_data)
@@ -72,8 +78,10 @@ def _circlet_stats(circlet_stats_raw: str, character_data: CharacterData):
         i += 1
 
 
-def _substats(substats_raw: str, character_data: CharacterData):
+def _substats(substats_raw: str | None, character_data: CharacterData):
     """Process the substats."""
+    if not substats_raw:
+        return
     split_data = substats_raw.split(">")
     print(split_data)
     i = 0
@@ -87,7 +95,7 @@ def _substats(substats_raw: str, character_data: CharacterData):
         i += 1
 
 
-def get_stats(soup: BeautifulSoup, character_data: CharacterData):
+def get_stats(soup: BeautifulSoup, character_data: CharacterData, allow_empty: bool = False):
     """Get the stats of the character."""
     character_stats: ResultSet[Tag] = soup.find_all("div", {"class": "character-stats-item"})
     sands_stats_raw: str | None = None
@@ -105,7 +113,8 @@ def get_stats(soup: BeautifulSoup, character_data: CharacterData):
         print(substats_raw)
     else:
         print("ERROR: Character stats not found.")
-        raise ValueError("Character stats not found.")
+        if not allow_empty:
+            raise ValueError("Character stats not found.")
 
     _process_sands_stats(sands_stats_raw, character_data)
     _goblet_stats(goblet_stats_raw, character_data)

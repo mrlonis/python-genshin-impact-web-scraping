@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup, Tag
 from src.character_data import CharacterData
 
 
-def get_weapon_type(soup: BeautifulSoup, character_data: CharacterData):
+def get_weapon_type(soup: BeautifulSoup, character_data: CharacterData, allow_empty: bool = False):
     """Get the weapon type of the character."""
     weapon_type_result = soup.find("div", {"class": "character-path"})
     weapon_type: str | None = None
@@ -13,4 +13,5 @@ def get_weapon_type(soup: BeautifulSoup, character_data: CharacterData):
         character_data.weapon_type = weapon_type
     else:
         print("ERROR: Weapon type not found.")
-        raise ValueError("Weapon type not found.")
+        if not allow_empty:
+            raise ValueError("Weapon type not found.")

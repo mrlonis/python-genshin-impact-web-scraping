@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup, Tag
 from src.character_data import CharacterData
 
 
-def get_rarity(soup: BeautifulSoup, character_data: CharacterData):
+def get_rarity(soup: BeautifulSoup, character_data: CharacterData, allow_empty: bool = False):
     """Get the rarity of the character."""
     rarity_result = soup.find("img", {"class": "character-portrait"})
     rarity: int | None = None
@@ -13,4 +13,5 @@ def get_rarity(soup: BeautifulSoup, character_data: CharacterData):
         character_data.rarity = rarity
     else:
         print("ERROR: Rarity not found.")
-        raise ValueError("Rarity not found.")
+        if not allow_empty:
+            raise ValueError("Rarity not found.")
