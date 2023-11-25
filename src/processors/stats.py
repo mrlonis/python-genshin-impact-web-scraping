@@ -124,7 +124,7 @@ def _substats(substats_raw: str | None, character_data: CharacterData):
         i += 1
 
 
-def get_stats(soup: BeautifulSoup, character_data: CharacterData, allow_empty: bool = False):
+def get_stats(soup: BeautifulSoup, character_data: CharacterData):
     """Get the stats of the character."""
     character_stats: ResultSet[Tag] = soup.find_all("div", {"class": "character-stats-item"})
     sands_stats_raw: str | None = None
@@ -143,8 +143,7 @@ def get_stats(soup: BeautifulSoup, character_data: CharacterData, allow_empty: b
     else:
         error_message = f"Character stats not found for {character_data.name}."
         print(f"ERROR: {error_message}")
-        if not allow_empty:
-            raise ValueError(error_message)
+        raise ValueError(error_message)
 
     _process_sands_stats(sands_stats_raw, character_data)
     _goblet_stats(goblet_stats_raw, character_data)

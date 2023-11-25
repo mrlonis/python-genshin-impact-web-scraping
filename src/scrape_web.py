@@ -18,8 +18,9 @@ def build_characters_csv(make_server_call: bool = False):
             "name,imageUrl,rarity,elementId,weaponType,sandsStatOne,sandsStatTwo,sandsStatThree,gobletStatOne,gobletStatTwo,gobletStatThree,circletStatOne,circletStatTwo,circletStatThree,substatOne,substatTwo,substatThree,weaponOneId,weaponTwoId,weaponThreeId,weaponFourId,weaponFiveId,artifactSetOneIdFirst,artifactSetOneIdSecond,artifactSetTwoIdFirst,artifactSetTwoIdSecond,artifactSetThreeIdFirst,artifactSetThreeIdSecond,artifactSetFourIdFirst,artifactSetFourIdSecond,artifactSetFiveIdFirst,artifactSetFiveIdSecond\n"  # noqa: E501
         )
         for character_input in characters_list:
-            character = scrape_web(character_input, make_server_call=make_server_call)
-            csv_file.write(character.to_csv() + "\n")
+            if not character_input.skip:
+                character = scrape_web(character_input, make_server_call=make_server_call)
+                csv_file.write(character.to_csv() + "\n")
 
 
 def _build_url(character_input: CharacterInput):
@@ -56,10 +57,10 @@ def scrape_web(character_input: CharacterInput, make_server_call=False):
     soup = BeautifulSoup(html, "html.parser")
     character_data: CharacterData = CharacterData(name=character_input.name)
 
-    get_rarity(soup, character_data, allow_empty=character_input.allow_empty)
-    get_element(soup, character_data, allow_empty=character_input.allow_empty)
-    get_weapon_type(soup, character_data, allow_empty=character_input.allow_empty)
-    get_stats(soup, character_data, allow_empty=character_input.allow_empty)
+    get_rarity(soup, character_data)
+    get_element(soup, character_data)
+    get_weapon_type(soup, character_data)
+    get_stats(soup, character_data)
     get_weapons_and_artifacts(soup, character_data)
 
     pretty_print(character_data)

@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup, Tag
 from src.character_data import CharacterData
 
 
-def get_element(soup: BeautifulSoup, character_data: CharacterData, allow_empty: bool = False):
+def get_element(soup: BeautifulSoup, character_data: CharacterData):
     """Get the element of the character."""
     element_result = soup.find("img", {"class": "character-element"})
     element: str | None = None
@@ -14,5 +14,4 @@ def get_element(soup: BeautifulSoup, character_data: CharacterData, allow_empty:
     else:
         error_message = f"Element not found for {character_data.name}."
         print(f"ERROR: {error_message}")
-        if not allow_empty:
-            raise ValueError(error_message)
+        raise ValueError(error_message)
