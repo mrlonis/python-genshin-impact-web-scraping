@@ -1,4 +1,5 @@
 """This module contains the character data information."""
+
 from pydantic import BaseModel
 
 
@@ -90,6 +91,9 @@ characters_list: list[CharacterInput] = [
     CharacterInput(name="Neuvillette"),
     CharacterInput(name="Charlotte"),
     CharacterInput(name="Furina"),
-    CharacterInput(name="Chevreuse", skip=True),
-    CharacterInput(name="Navia", skip=True),
+    CharacterInput(name="Chevreuse"),
+    CharacterInput(name="Navia"),
+    CharacterInput(name="Gaming"),
+    CharacterInput(name="Xianyun"),
+    CharacterInput(name="Chiori", skip=True),
 ]
